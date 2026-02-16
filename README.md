@@ -84,6 +84,33 @@ npm run build
 npm run start
 ```
 
+## Despliegue en Azure Web App (GitHub Actions)
+
+El workflow `.github/workflows/azure-webapp.yml` hace build y deploy a Azure en cada push a `main`.
+
+### 1. En Azure Portal
+
+- Crea un **App Service** (Web App), runtime **Node 20** (LTS).
+- En **Configuration** → **Application settings** añade las variables de entorno (igual que tu `.env`): `DATABASE_URL`, `CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `SUPABASE_STORAGE_BUCKET`, `CORS_ORIGINS`, etc.
+- **General settings** → **Startup Command**: `npm start` (o déjalo vacío; Azure usará el script `start` de `package.json`: `node dist/main.js`).
+- En **Deployment Center** (o **Overview**): descarga el **Publish profile** del Web App.
+
+### 2. En GitHub
+
+- **Settings** → **Secrets and variables** → **Actions**:
+  - **New repository secret**: nombre `AZURE_WEBAPP_PUBLISH_PROFILE`, valor = contenido del archivo Publish profile descargado.
+- **Settings** → **Secrets and variables** → **Actions** → **Variables**:
+  - **New repository variable**: nombre `AZURE_WEBAPP_NAME`, valor = nombre de tu Web App en Azure (ej. `tapi-api`).
+
+### 3. Migraciones de base de datos
+
+Las migraciones no se ejecutan en el workflow. Una vez desplegado, puedes:
+
+- Ejecutarlas a mano desde tu máquina: `npx prisma migrate deploy` (con `DATABASE_URL` apuntando a la DB de producción), o
+- Añadir un paso en el workflow después del build (ej. run con un script que use la `DATABASE_URL` del secret) si quieres que se apliquen en cada deploy.
+
+Con eso, cada push a `main` hará build (install, prisma generate, npm run build) y deploy del artefacto a la Web App.
+
 ## Tests
 
 - **GET /health** no requiere base de datos y siempre puede ejecutarse.
