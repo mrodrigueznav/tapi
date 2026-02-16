@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+build/
+*.tsbuildinfo
+
+# Environment and secrets (NUNCA subir .env con credenciales reales)
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.test
+*.pem
+*.key
+.secret
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pino-*.log
+
+# OS and editors
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+*.sublime-*
+
+# Test and coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# Prisma
+prisma/migrations/**/migration_lock.toml
+
+# Optional (descomenta si usas)
+# .cache/
+# .turbo/
