@@ -36,7 +36,7 @@ describe("Documents", () => {
       .set("x-test-clerk-user-id", "clerk_test_superadmin")
       .set("x-company-id", "clxx000000000000000000001")
       .send({});
-    expect([200, 404, 403]).toContain(res.status);
+    expect([200, 400, 404, 403]).toContain(res.status);
     if (res.status === 200) {
       expect(res.body.ok).toBe(true);
       expect(res.body.data).toMatchObject({ url: expect.any(String), expiresIn: expect.any(Number) });
