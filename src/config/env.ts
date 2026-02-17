@@ -34,7 +34,10 @@ let parsed: Env;
 try {
   parsed = envSchema.parse(process.env);
 } catch (err) {
-  console.error("Invalid environment variables:", err);
+  const lines = err && typeof err === "object" && "flatten" in err
+    ? (err as z.ZodError).flatten().fieldErrors
+    : null;
+  console.error("[env] Invalid environment variables. Check Azure App Settings.", lines ?? err);
   process.exit(1);
 }
 

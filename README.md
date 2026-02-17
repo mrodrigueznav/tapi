@@ -114,6 +114,14 @@ Las migraciones no se ejecutan en el workflow. Una vez desplegado, puedes:
 
 Con eso, cada push a `main` hará build (install, prisma generate, npm run build) y deploy del artefacto a la Web App.
 
+### Si ves "Application Error"
+
+1. **Ver el error real**: En Azure Portal → tu Web App → **Monitoring** → **Log stream**. Arranca la app (o haz un request) y revisa la salida. Si la app no arranca por variables de entorno, verás `[env] Invalid environment variables` y qué variable falta o es inválida.
+2. **Variables obligatorias en producción** (en **Configuration** → **Application settings**):  
+   `NODE_ENV` = `production`, `DATABASE_URL`, `CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `SUPABASE_URL`, `SUPABASE_SECRET_KEY`. Opcionales: `SUPABASE_STORAGE_BUCKET`, `CORS_ORIGINS`, `PORT` (Azure suele inyectarlo).
+3. **Startup Command**: debe ser solo `npm start` (o vacío). **General settings** → **Startup Command**.
+4. **Kudu (SSH/Console)**: En **Development Tools** → **Advanced Tools** → **Go** → **Debug console** → **SSH** o **CMD**. Puedes ejecutar `node dist/src/main.js` a mano para ver el error en pantalla.
+
 ## Tests
 
 - **GET /health** no requiere base de datos y siempre puede ejecutarse.
