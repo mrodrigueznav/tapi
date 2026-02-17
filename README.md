@@ -92,7 +92,7 @@ El workflow `.github/workflows/azure-webapp.yml` hace build y deploy a Azure en 
 
 - Crea un **App Service** (Web App), runtime **Node 20** (LTS).
 - En **Configuration** → **Application settings** añade las variables de entorno (igual que tu `.env`): `DATABASE_URL`, `CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `SUPABASE_STORAGE_BUCKET`, `CORS_ORIGINS`, etc.
-- **General settings** → **Startup Command**: `npm start` (o déjalo vacío; Azure usará el script `start` de `package.json`: `node dist/main.js`).
+- **General settings** → **Startup Command**: deja exactamente `npm start` (o vacío). No pongas varios comandos ni duplicados; si algo más arranca en el mismo puerto verás `EADDRINUSE`.
 - En **Deployment Center** (o **Overview**): descarga el **Publish profile** del Web App.
 
 ### 2. En GitHub
