@@ -86,13 +86,16 @@ npm run start
 
 ## Despliegue en Azure Web App (GitHub Actions)
 
-El workflow `.github/workflows/azure-webapp.yml` hace build y deploy a Azure en cada push a `main`.
+El workflow `.github/workflows/main_tohuapi.yml` hace build y deploy a Azure en cada push a `main`.
 
 ### 1. En Azure Portal
 
 - Crea un **App Service** (Web App), runtime **Node 20** (LTS).
-- En **Configuration** → **Application settings** añade las variables de entorno (igual que tu `.env`): `DATABASE_URL`, `CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `SUPABASE_STORAGE_BUCKET`, `CORS_ORIGINS`, etc.
-- **General settings** → **Startup Command**: deja exactamente `npm start` (o vacío). No pongas varios comandos ni duplicados; si algo más arranca en el mismo puerto verás `EADDRINUSE`.
+- En **Configuration** → **Application settings** añade:
+  - Variables de entorno (igual que tu `.env`): `DATABASE_URL`, `CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `SUPABASE_STORAGE_BUCKET`, `CORS_ORIGINS`, etc.
+  - **SCM_DO_BUILD_DURING_DEPLOYMENT** = `false` — así Azure no vuelve a hacer `npm install`/`npm run build`; usa el artefacto ya compilado por el workflow.
+  - (Opcional) **WEBSITE_NODE_DEFAULT_VERSION** = `~20` para fijar Node 20.
+- **General settings** → **Startup Command**: exactamente `npm start` (o vacío). No duplicar comandos para evitar `EADDRINUSE`.
 - En **Deployment Center** (o **Overview**): descarga el **Publish profile** del Web App.
 
 ### 2. En GitHub
