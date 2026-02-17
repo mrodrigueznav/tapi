@@ -1,5 +1,6 @@
 // Run before any test file so env is valid when app is imported.
-// Prisma reads DATABASE_URL from process.env at runtime.
+// Load .env first so DATABASE_URL (and other vars) from .env are used; then set test defaults only if unset.
+import "dotenv/config";
 process.env.NODE_ENV = "test";
 process.env.TEST_AUTH_BYPASS = "true";
 process.env.DATABASE_URL =
