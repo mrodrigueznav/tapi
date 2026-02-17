@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Internal API - Multi-tenant, RBAC, Documents (Supabase Storage)",
   "main": "dist/src/main.js",
-  "type": "module",
   "scripts": {
     "dev": "tsx watch src/main.ts",
     "build": "tsc",
-    "start": "node dist/src/main.js",
+    "startold": "node dist/src/main.js",
+    "start": "node -p \"process.version\" && node dist/src/main.js",
     "postinstall": "prisma generate",
     "lint": "eslint src test --ext .ts",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"prisma/**/*.ts\"",
@@ -36,10 +36,10 @@
     "pino-http": "^10.2.0",
     "serverless-http": "^4.0.0",
     "swagger-ui-express": "^5.0.1",
-    "zod": "^3.23.8",
-    "prisma": "^5.22.0"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "prisma": "^5.22.0",
     "@eslint/js": "^9.14.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
