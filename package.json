@@ -5,9 +5,10 @@
   "main": "dist/src/main.js",
   "scripts": {
     "dev": "tsx watch src/main.ts",
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "startold": "node dist/src/main.js",
-    "start": "node -p \"process.version\" && node dist/src/main.js",
+    "start": "node -e \"console.log('node',process.version); const fs=require('fs'); console.log('has .prisma?', fs.existsSync('node_modules/.prisma/client'));\" && node dist/src/main.js",
+    "startx": "node -p \"process.version\" && node dist/src/main.js",
     "postinstall": "prisma generate",
     "lint": "eslint src test --ext .ts",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"prisma/**/*.ts\"",
