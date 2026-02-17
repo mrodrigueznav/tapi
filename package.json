@@ -19,7 +19,7 @@
     "prisma:studio": "prisma studio"
   },
   "engines": {
-    "node": ">=20"
+    "node": "22.x"
   },
   "dependencies": {
     "@clerk/express": "^1.7.70",
