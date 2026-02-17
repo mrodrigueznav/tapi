@@ -34,12 +34,13 @@ jobs:
 
       # Build TypeScript -> dist
       - name: Build
-        run: npm run build
+        run: npm run build:ci
 
       # Create a clean deployment zip (no node_modules)
       - name: Create deployment package
         run: |
-          zip -r app.zip dist prisma package.json package-lock.json
+          zip -r app.zip dist prisma package.json package-lock.json tsconfig.json
+
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
